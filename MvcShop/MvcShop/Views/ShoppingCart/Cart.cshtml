@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Cart";
+}
+
+@using MvcShop.Models
+@using MvcShop.Controllers
+
+<h2>Cart</h2>
+
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Sub Total</th>
+        <th>Remove</th>
+    </tr>
+    @{
+        decimal s = 0;  
+    }
+    @foreach (var item in (List<Item>)Session["cart"])
+    {
+        s = s + item.Prod.Price * item.Quant;
+        <tr>
+            <td>@item.Prod.Id</td>
+            <td>@item.Prod.Name</td>
+            <td>@item.Prod.Price</td>
+            <td>@item.Quant</td>
+            <td>@(item.Prod.Price * item.Quant)</td>
+            <td>@Html.ActionLink("Remove", "Delete", "ShoppingCart", new { id = item.Prod.Id}, null)</td>
+        </tr>
+    }
+    <tr>
+        <td align="right" colspace="5">Sum</td>
+        <td>@s</td>
+
+</table>
+
+@Html.ActionLink("Continue Shopping", "Products", "Home")
